@@ -1,5 +1,4 @@
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -9,24 +8,45 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class PracticeSelenideTest {
+
     @BeforeAll
     static void beforeAll() {
         Configuration.browserSize = "1920*1080";
-        //Configuration.pageLoadStrategy = "eager";
         Configuration.baseUrl = "https://github.com";
-        Configuration.holdBrowserOpen = true;
-        Configuration.timeout = 5000; // default 4000
+        Configuration.pageLoadStrategy = "eager";
     }
+
     @Test
-    void checkJUnit () {
-        // - Откройте страницу Selenide в Github
+    void exampleJUnit5() {
+
+        //открыть страницу
         open("/selenide/selenide");
-        // - Перейдите в раздел Wiki проект
+        //перейти в раздел Wiki проекта
         $("#wiki-tab").click();
-        // - Убедитесь, что в списке страниц (Pages) есть страница SoftAssertions
+        //$(byText("Add a custom sidebar")).scrollTo();
+        //убедиться, что в списке страниц (Pages) есть страница SoftAssertions
         $("#wiki-content").$(byText("Show 3 more pages…")).click();
-        $("#wiki-wrapper").shouldHave(text("SoftAssertions"));
-        // - Откройте страницу SoftAssertions, проверьте что внутри есть пример кода для JUnit5
+        $("#wiki-pages-box").shouldHave(text("SoftAssertions"));
+        //открыть страницу SoftAssertions
         $(byText("SoftAssertions")).click();
+        //проверить, что внутри есть пример кода для JUnit5
+        $("#wiki-body").shouldHave(text(
+                """
+                        @ExtendWith({SoftAssertsExtension.class})
+                        class Tests {
+                          @Test
+                          void test() {
+                            Configuration.assertionMode = SOFT;
+                            open("page.html");
+                        
+                            $("#first").should(visible).click();
+                            $("#second").should(visible).click();
+                          }
+                        }"""));
+
+
+
+
+
     }
 }
