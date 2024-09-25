@@ -19,17 +19,11 @@ public class PracticeSelenideTest {
     @Test
     void exampleJUnit5() {
 
-        //открыть страницу
         open("/selenide/selenide");
-        //перейти в раздел Wiki проекта
         $("#wiki-tab").click();
-        //$(byText("Add a custom sidebar")).scrollTo();
-        //убедиться, что в списке страниц (Pages) есть страница SoftAssertions
         $("#wiki-content").$(byText("Show 3 more pages…")).click();
         $("#wiki-pages-box").shouldHave(text("SoftAssertions"));
-        //открыть страницу SoftAssertions
         $(byText("SoftAssertions")).click();
-        //проверить, что внутри есть пример кода для JUnit5
         $("#wiki-body").shouldHave(text(
                 """
                         @ExtendWith({SoftAssertsExtension.class})
@@ -43,9 +37,6 @@ public class PracticeSelenideTest {
                             $("#second").should(visible).click();
                           }
                         }"""));
-
-
-
 
 
     }
